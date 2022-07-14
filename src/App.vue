@@ -29,12 +29,14 @@ const userNavigation = [
 ];
 
 const route = useRoute();
-
-console.log(route.path);
+const currentRoute = ref('Home');
 
 watch(
   () => route.path,
   async (newPath) => {
+    currentRoute.value = route.name.toString();
+    console.log(currentRoute);
+
     navigation.value = navigation.value.map((link) => {
       link.current = link.href === newPath;
 
@@ -124,14 +126,16 @@ watch(
                       :key="item.name"
                       v-slot="{ active }"
                     >
-                      <a
-                        :href="item.href"
+                      <router-link
+                        :key="item.name"
+                        :to="item.href"
                         :class="[
                           active ? 'bg-gray-100' : '',
                           'block px-4 py-2 text-sm text-gray-700',
                         ]"
-                        >{{ item.name }}</a
                       >
+                        {{ item.name }}
+                      </router-link>
                     </MenuItem>
                   </MenuItems>
                 </transition>
@@ -153,11 +157,11 @@ watch(
 
       <DisclosurePanel class="md:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <DisclosureButton
+          <router-link
             v-for="item in navigation"
             :key="item.name"
             as="a"
-            :href="item.href"
+            :to="item.href"
             :class="[
               item.current
                 ? 'bg-gray-900 text-white'
@@ -165,8 +169,9 @@ watch(
               'block px-3 py-2 rounded-md text-base font-medium',
             ]"
             :aria-current="item.current ? 'page' : undefined"
-            >{{ item.name }}</DisclosureButton
           >
+            {{ item.name }}
+          </router-link>
         </div>
         <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
@@ -205,7 +210,7 @@ watch(
 
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <h1 class="text-3xl font-bold text-gray-900">{{ currentRoute }}</h1>
       </div>
     </header>
     <main>
