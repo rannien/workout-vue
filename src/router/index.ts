@@ -1,20 +1,38 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
+import AboutView from '@/views/AboutView.vue'
+import LoginView from '@/views/LoginView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
+import Admin from '@/layouts/Admin.vue'
+import Full from '@/layouts/Full.vue'
 
 const routes = [
-  { path: '/', name: 'Home', component: HomeView },
-  { path: '/about', name: 'About', component: AboutView },
+  {
+    path: '/admin',
+    redirect: '/admin',
+    component: Admin,
+    children: [
+      { path: '/admin', name: 'Home', component: HomeView },
+      { path: '/admin/about', name: 'About', component: AboutView },
+    ],
+  },
+  
+  {
+    path: '/',
+    component: Full,
+    redirect: '/login',
+    children: [
+      { path: '/login', name: 'Login', component: LoginView },
+      { path: '/404', name: 'NotFound', component: NotFoundView },
+    ]
+  },
+  { path: '/:pathMatch(.*)', component: NotFoundView }
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
 const router = createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   base: import.meta.env.BASE_URL,
-  history: createWebHashHistory(),
-  routes, // short for `routes: routes`
+  history: createWebHistory(),
+  routes,
 })
 
 export default router
