@@ -1,12 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import Admin from '@/layouts/Admin.vue'
 import Full from '@/layouts/Full.vue'
+import { useAuthStore } from '../stores/AuthStore'
 
-const routes = [
+const routes: RouteRecordRaw[]  = [
   {
     path: '/admin',
     redirect: '/admin',
@@ -30,9 +31,20 @@ const routes = [
 ]
 
 const router = createRouter({
-  base: import.meta.env.BASE_URL,
   history: createWebHistory(),
   routes,
 })
+
+router.beforeEach(async (to) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login'];
+  const authRequired = !publicPages.includes(to.path);
+  const auth = useAuthStore();
+
+  if (authRequired && !auth.user) {
+      auth.returnUrl = to.fullPath;
+      return '/login';
+  }
+});
 
 export default router

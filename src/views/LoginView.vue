@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { Ref, ref } from 'vue';
 import github from '../assets/img/github.svg';
 import google from '../assets/img/google.svg';
+import { useAuthStore } from '../stores/AuthStore';
+
+const password: Ref = ref('');
+const email: Ref = ref('');
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -45,6 +51,7 @@ import google from '../assets/img/google.svg';
                   Email
                 </label>
                 <input
+                  v-model="email"
                   type="email"
                   class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
@@ -59,6 +66,7 @@ import google from '../assets/img/google.svg';
                   Password
                 </label>
                 <input
+                  v-model="password"
                   type="password"
                   class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
@@ -79,6 +87,7 @@ import google from '../assets/img/google.svg';
 
               <div class="text-center mt-6">
                 <button
+                  @click="authStore.login(email, password)"
                   class="bg-slate-800 text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="button"
                 >

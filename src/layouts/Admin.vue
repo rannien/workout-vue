@@ -10,7 +10,8 @@ import {
 } from '@headlessui/vue';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline';
 import { useRoute } from 'vue-router';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useAuthStore } from '../stores/AuthStore';
 
 const user = {
   name: 'Tom Cook',
@@ -25,24 +26,26 @@ const navigation = ref([
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
 ];
 
+const authStore = useAuthStore();
 const route = useRoute();
 const currentRoute = ref('Home');
 
-watch(
-  () => route.path,
-  async (newPath) => {
-    currentRoute.value = route.name.toString();
+const refreshRoute = async (newPath) => {
+  currentRoute.value = route.name.toString();
 
-    navigation.value = navigation.value.map((link) => {
-      link.current = link.href === newPath;
+  navigation.value = navigation.value.map((link) => {
+    link.current = link.href === newPath;
 
-      return link;
-    });
-  }
-);
+    return link;
+  });
+};
+
+watch(() => route.path, refreshRoute);
+onMounted(() => {
+  refreshRoute(route.name.toString());
+});
 </script>
 
 <template>
@@ -135,6 +138,9 @@ watch(
                       >
                         {{ item.name }}
                       </router-link>
+                    </MenuItem>
+                    <MenuItem class="block px-4 py-2 text-sm text-gray-700">
+                      <a href="#" @click="authStore.logout">Sign out</a>
                     </MenuItem>
                   </MenuItems>
                 </transition>
