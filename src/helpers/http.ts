@@ -1,14 +1,12 @@
 import axios from 'axios';
 import { useAuthStore } from '../stores/AuthStore';
 
-const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-};
-
 export const HTTP = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  headers: {...headers, ...authHeader},
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+},
 });
 
 
@@ -22,3 +20,13 @@ function authHeader() {
         return {};
     }
 }
+
+HTTP.interceptors.request.use(function (config) {
+    console.log('asdasd', authHeader());
+    
+    config.headers = { ...config.headers, ...authHeader()}
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });

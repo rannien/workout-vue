@@ -13,7 +13,7 @@ export const useAuthStore = defineStore({
   }),
   actions: {
     async login(email, password) {
-      const user = await HTTP
+      await HTTP
         .post('/auth/local', {
           identifier: email,
           password: password,
@@ -26,12 +26,13 @@ export const useAuthStore = defineStore({
 
           // update pinia state
           this.user = response.data.user;
+          this.user.jwt = response.data.jwt;
 
           // store user details and jwt in local storage to keep user logged in between page refreshes
           localStorage.setItem('user', JSON.stringify(this.user));
 
           // redirect to previous url or default to home page
-          router.push(this.returnUrl || '/admin');
+          router.push(this.returnUrl || '/dashboard');
         })
         .catch(this.handleError);
     },

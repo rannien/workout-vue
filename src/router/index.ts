@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import AboutView from '@/views/AboutView.vue'
+import WorkoutsView from '@/views/WorkoutsView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import Admin from '@/layouts/Admin.vue'
@@ -9,12 +9,12 @@ import { useAuthStore } from '../stores/AuthStore'
 
 const routes: RouteRecordRaw[]  = [
   {
-    path: '/admin',
-    redirect: '/admin',
+    path: '/dashboard',
+    redirect: '/dashboard',
     component: Admin,
     children: [
-      { path: '/admin', name: 'Home', component: HomeView },
-      { path: '/admin/about', name: 'About', component: AboutView },
+      { path: '/dashboard', name: 'Home', component: HomeView },
+      { path: '/workouts', name: 'Workouts', component: WorkoutsView },
     ],
   },
   
