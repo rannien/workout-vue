@@ -3,7 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import WorkoutsView from '@/views/WorkoutsView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
-import Admin from '@/layouts/Admin.vue'
+import LoggedIn from '@/layouts/LoggedIn.vue'
 import Full from '@/layouts/Full.vue'
 import { useAuthStore } from '../stores/AuthStore'
 
@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[]  = [
   {
     path: '/dashboard',
     redirect: '/dashboard',
-    component: Admin,
+    component: LoggedIn,
     children: [
       { path: '/dashboard', name: 'Home', component: HomeView },
       { path: '/workouts', name: 'Workouts', component: WorkoutsView },
