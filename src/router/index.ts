@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
+import DashboardView from '@/views/DashboardView.vue'
 import WorkoutsView from '@/views/WorkoutsView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[]  = [
     redirect: '/dashboard',
     component: LoggedIn,
     children: [
-      { path: '/dashboard', name: 'Home', component: HomeView },
+      { path: '/dashboard', name: 'Dashboard', component: DashboardView },
       { path: '/workouts', name: 'Workouts', component: WorkoutsView },
     ],
   },
