@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 import { useWorkoutStore } from '../stores/WorkoutStore';
+import WorkoutItem from '../components/WorkoutItem.vue';
 
 const workoutStore = useWorkoutStore();
 
@@ -52,23 +53,7 @@ const categories = ref(['Week 1', 'Week 2', 'Week 3']);
               :key="workout.id"
               class="group relative p-4 bg-slate-100 border-1 rounded-md"
             >
-              <div class="mt-4 flex justify-between">
-                <div>
-                  <h3 class="text-sm text-gray-700">
-                    <a href="#">
-                      <span aria-hidden="true" class="absolute inset-0"></span>
-                      {{ workout.attributes.exercise.data.attributes.name }}
-                    </a>
-                  </h3>
-                  <p class="mt-1 text-sm text-gray-500">
-                    {{ workout.attributes.circuit.data.attributes.name }}
-                  </p>
-                </div>
-                <p class="text-sm font-medium text-gray-900">
-                  {{ workout.attributes.target_repetition }}
-                  {{ workout.attributes.target_repetition_type }}
-                </p>
-              </div>
+              <WorkoutItem :workout="workout" />
             </div>
 
             <!-- More products... -->
